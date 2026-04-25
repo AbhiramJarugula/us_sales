@@ -352,11 +352,17 @@ class DemandDashboard:
 
     # Plot 6: Sunburst Chart
     def plot_sunburst_chart(self, df):
-        df['Demand_Level'] = pd.cut(df['demand_score_normalized'],
-                                    bins=[0, 25, 50, 75, 100],
-                                    labels=['Low', 'Moderate', 'High', 'Critical'])
+        # Create Demand_Level as a regular string column instead of categorical
+        df = df.copy()  # Create a copy to avoid modifying the original
+        df['Demand_Level'] = pd.cut(
+            df['demand_score_normalized'],
+            bins=[0, 25, 50, 75, 100],
+            labels=['Low', 'Moderate', 'High', 'Critical']
+        ).astype(str)  # Convert to string to avoid categorical issues
 
-        hierarchy_data = df.groupby(['StateAbbr', 'Demand_Level']).size().reset_index(name='count')
+        # Drop any rows with NaN in Demand_Level
+        hierarchy_data = df.dropna(subset=['StateAbbr', 'Demand_Level'])
+        hierarchy_data = hierarchy_data.groupby(['StateAbbr', 'Demand_Level']).size().reset_index(name='count')
 
         fig = px.sunburst(
             hierarchy_data,
