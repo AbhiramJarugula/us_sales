@@ -40,7 +40,7 @@ Territory managers in the pharmaceutical industry often lack granular, timely da
 
 The Streamlit app is deployed on community cloud platform offered by Streamlit
 
-*URL - https://ussales.streamlit.app/*
+*Access the live app here: [Clinical Demand Analytics](https://ussales.streamlit.app/)*
 
 
 
